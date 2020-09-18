@@ -1,0 +1,106 @@
+#### Calories consumed data ##########################################
+
+caloriesconsumed = read.csv(file.choose())
+attach(caloriesconsumed)
+summary(caloriesconsumed)
+library(lattice)
+dotplot(caloriesconsumed$Calories.Consumed)
+dotplot(caloriesconsumed$Weight.gained..grams.)
+boxplot(caloriesconsumed$Calories.Consumed,col = "blue", horizontal = T)
+boxplot(caloriesconsumed$Weight.gained..grams.,col = "red",horizontal = T)
+hist(caloriesconsumed$Calories.Consumed)
+hist(caloriesconsumed$Weight.gained..grams.)
+qqnorm(caloriesconsumed$Calories.Consumed)
+qqline(caloriesconsumed$Calories.Consumed)
+qqnorm(caloriesconsumed$Weight.gained..grams.)
+qqline(caloriesconsumed$Weight.gained..grams.)
+hist(caloriesconsumed$Calories.Consumed, probability = TRUE)
+lines(density(caloriesconsumed$Calories.Consumed))
+lines(density(caloriesconsumed$Calories.Consumed,adjust = 3))
+plot(caloriesconsumed$Calories.Consumed,caloriesconsumed$Weight.gained..grams.,main = "scatter plot", xlab = "calories consumed",ylab = "weight gained")
+cor(caloriesconsumed$Calories.Consumed,caloriesconsumed$Weight.gained..grams.)
+reg <- lm(caloriesconsumed$Weight.gained..grams.~caloriesconsumed$Calories.Consumed)
+summary(reg)
+confint(reg,level = 0.95)
+predict <- predict(reg,interval = "predict")
+pred <- as.data.frame(predict)
+View(pred)
+attach(pred)
+cor(pred$fit,caloriesconsumed$Weight.gained..grams.)
+
+### Delivery time data #####################################################
+
+deliverytime=read.csv(file.choose())
+attach(deliverytime)
+summary(deliverytime)
+library(lattice)
+dotplot(deliverytime$Delivery.Time)
+dotplot(deliverytime$Sorting.Time)
+boxplot(deliverytime$Delivery.Time)
+boxplot(deliverytime$Sorting.Time)
+hist(deliverytime$Delivery.Time)
+hist(deliverytime$Sorting.Time)
+qqnorm(deliverytime$Delivery.Time)
+qqline(deliverytime$Delivery.Time)
+qqnorm(deliverytime$Delivery.Time)
+qqline(deliverytime$Delivery.Time)
+plot(deliverytime$Sorting.Time,deliverytime$Delivery.Time)
+cor(deliverytime$Sorting.Time,deliverytime$Delivery.Time)
+reg <- lm(deliverytime$Delivery.Time~deliverytime$Sorting.Time)
+summary(reg)
+confint(reg,level = 0.95)
+predict(reg,interval = "predict")
+
+### logorthemic regression ###
+reg.log <- lm(deliverytime$Delivery.Time~log(deliverytime$Sorting.Time))
+summary(reg.log)
+confint(reg.log,level = 0.95)
+predict(reg.log,interval = "predict")
+
+### Exponential regression ###
+reg.exp <- lm(log(deliverytime$Delivery.Time)~deliverytime$Sorting.Time)
+summary(reg.exp)
+confint(reg.exp,level = 0.95)
+predict(reg.exp,interval = "predict")
+
+
+reg.sqrt <- lm(deliverytime$Delivery.Time~sqrt(deliverytime$Sorting.Time))
+summary(reg.sqrt)
+plot(sqrt(deliverytime$Sorting.Time),deliverytime$Delivery.Time)
+
+
+reg.log1 <- lm(deliverytime$Delivery.Time~deliverytime$Sorting.Time+I(Sorting.Time*Sorting.Time))
+summary(reg.log1)
+
+### Emp data #########################################################
+empdata <- read.csv(file.choose())
+attach(empdata)
+summary(empdata)
+library(lattice)
+dotplot(empdata$Salary_hike)
+dotplot(empdata$Churn_out_rate)
+boxplot(empdata$Salary_hike)
+boxplot(empdata$Churn_out_rate)
+hist(empdata$Salary_hike)
+hist(empdata$Churn_out_rate)
+qqnorm(empdata$Salary_hike)
+qqline(empdata$Salary_hike)
+qqnorm(empdata$Churn_out_rate)
+qqline(empdata$Churn_out_rate)
+plot(empdata$Salary_hike,empdata$Churn_out_rate)
+cor(empdata$Salary_hike,empdata$Churn_out_rate)
+reg <- lm(empdata$Churn_out_rate~empdata$Salary_hike)
+summary(reg)
+confint(reg,level = 0.95)
+predict(reg,interval = "predict")
+
+### Salary hike ###
+
+plot(empdata$Churn_out_rate,empdata$Salary_hike)
+cor(empdata$Churn_out_rate,empdata$Salary_hike)
+reg <- lm(empdata$Salary_hike~empdata$Churn_out_rate)
+summary(reg)
+confint(reg,level = 0.95)
+predict(reg,interval = "predict")
+
+
